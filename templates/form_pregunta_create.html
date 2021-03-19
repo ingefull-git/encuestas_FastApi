@@ -1,0 +1,25 @@
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <label style="font-weight: 700;">Pregunta</label>
+                <input type="text" id="pregunta" placeholder="Ingrese pregunta para la encuesta...">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mt-2">
+                <label>Vencimiento</label>
+                <input type="date" name="vence" id="vence" value="{{ fecha_vence }}">
+            </div>
+            <div class="col-md-6 mt-2">
+                <label>Tag</label>
+                <input type="text" id="tag" placeholder="ingrese tag para la pregunta...">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" id="save_pregunta" class="btn btn-success">Guardar</button>
+    </div>
+

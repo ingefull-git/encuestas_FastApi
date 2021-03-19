@@ -1,0 +1,86 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+{% include 'header.html' %}
+
+<div class="container mt-2">
+  <h1>{{ title }}</h1>
+  <div class="d-flex justify-content-end">
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#preguntaModal"> -->
+    <button type="button" class="btn btn-primary mb-3" id="add_pregunta">
+      Agregar Pregunta
+    </button>
+  </div>
+  <table id="data" class="table table-hover mt-2" style="max-width: 100%;">
+    <thead>
+      <tr>
+        <th>#ID</th>
+        <th style="width:35%">Pregunta</th>
+        <th>Total</th>
+        <th>Usuario</th>
+        <th>Creada</th>
+
+        <th>Vence</th>
+        <th>Tag</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for preg in encuestas_list %}
+      <tr class="text-center">
+        <td class="text-center">{{loop.index}}</td>
+        <td class="text-left">{{ preg.nombre }}</td>
+        <td>{{ preg.total }}</td>
+        <td>{% if preg.usuario %} {{preg.usuario}} {% else %} ---- {% endif %}</td>
+        <td>{{preg.creada}}</td>
+        {% if not preg.vence %}
+        <td class="text-danger font-weight-bold">{{ preg.vence.strftime('%Y-%m-%d') }}</td>
+        {% else %}
+        <td class="text-success font-weight-bold">{{ preg.vence.strftime('%Y-%m-%d') }}</td>
+        {% endif %}
+        <td>{% if preg.tag %} {{ preg.tag }} {% else %} ---- {% endif %}</td>
+        {% if preg.vencida %}
+        <td>
+          <a href="#" class="btn btn-light btn-sm text-dark border-dark" readonly>
+            <i class="fas fa-spell-check"></i></a>
+        </td>
+        {% else %}
+        <td>
+          <a href="#" class="btn btn-primary btn-sm">
+            <i class="fas fa-spell-check"></i></a>
+        </td>
+        {% endif %}
+
+        <td><a href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a></td>
+        <td><a href="#" class="btn btn-secondary btn-sm"><i class="fas fa-poll"></i></a></td>
+        <td>
+          <a href="#" class="btn btn-danger btn-sm" id="add_pregunta" role="button" aria-pressed="true"><i
+              class="fas fa-trash-alt"></i></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+{% block modal %}
+{% include 'pregunta_modal.html' %}
+{% endblock %}
+
+<script type="application/javascript">
+  $(function () {
+    $('#data').DataTable({
+      responsive: true,
+      autoWidth: false,
+      ordering: true,
+      "pageLength": 8,
+      "order": [[0, 'desc'],],
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- <link rel="stylesheet" type="text/css" href="static/css/mystyle.css"> -->
+
+    {% block head %}
+    {% include 'base.html' %}
+    {% endblock %}
+
+    <title>EncuestasAPP</title>
+</head>
+
+<body>
+    {% block body %}
+
+    {% endblock %}
+
+
+
+</body>
+
+
+<script type="application/javascript">
+
+    $("#add_pregunta").click(function () {
+        $('#preguntaModal').modal('show');
+    });
+    console.log("Document Ready...");
+
+    $('.preguntaForm').on('submit', function (e) {
+        e.preventDefault();
+        var parameters = $(this).serializeArray();
+        var dato = JSON.stringify({ 'nombre': parameters[0]['value'] })
+        console.log("Parametros: ", parameters[0]['value'], dato);
+
+        $.ajax({
+            url: '/encuesta',
+            type: 'POST',
+            contentType: 'application/json',
+            data: dato,
+            dataType: 'json'
+        }).done(function (data) {
+            if (data.hasOwnProperty('error')) {
+                message_error(data.error);
+                alert("ALERT..!!\n Verify your Pregunta...",data.error);
+
+                return false;
+            } else {
+                location.reload(true);
+            }
+
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert("ALERT..!!",textStatus + ': ' + errorThrown);
+        }).always(function (data) {
+
+        });
+    });
+</script>
+
+
+
+</html>
